@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <!-- Add the Firebase SDK script here -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>Login</title>
+
+    <style>
+        body {
+            background-image: url('images/login-bg-1.png'); /* Replace with the actual path to your image file */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #e4e9f7; /* Fallback color */
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="box form-box">
+            <header class="header">Login</header>
+            <form action="" method="post">
+                <div class="field input">
+                    <label class="subheader" for="email">Email</label>
+                    <input type="text" name="email" id="email" placeholder="Email" autocomplete="off" required>
+                </div>
+
+                <div class="field input">
+                    <label class="subheader" for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required>
+                </div>
+
+                <div class="field">
+                    <input type="submit" id="login" name="submit" class="btn" value="Login" required>
+                </div>
+                <div class="links">
+                    Don't have an account? <a href="register.html">Sign Up Now </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+    import { getDatabase, update, ref } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBN1stC5Qfa95frUyegI28oV-IWV7OwD58",
+      authDomain: "finalsunity.firebaseapp.com",
+      databaseURL: "https://finalsunity-default-rtdb.firebaseio.com",
+      projectId: "finalsunity",
+      storageBucket: "finalsunity.appspot.com",
+      messagingSenderId: "19079537345",
+      appId: "1:19079537345:web:b8713a7a4bef5d275a6a40",
+      measurementId: "G-YRPS32W23Y"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginButton = document.getElementById('login');
+
+        loginButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                // Update real-time database every time user is created in AUTH
+                alert('User Login Successfully!')
+                window.location.href = 'home.html';
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
+
+        });
+    });
+</script>
+
+</html>
